@@ -1,0 +1,3 @@
+/.terraform/*
+/terraform_config/.terraform/*
+.terraform.lock.hcl
