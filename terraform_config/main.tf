@@ -2,10 +2,10 @@ variable "awsprops" {
     type = map(string)
     default = {
       region = "us-east-1"
-      vpc = "vpc-05677c19c9cad5357"
+      vpc = "vpc-057af0781b005d441"
       ami = "ami-09d56f8956ab235b3"
       itype = "t2.micro"
-      subnet = "subnet-035d4a39657067765"
+      subnet = "subnet-04991c5f40412f759"
       publicip = true
       keyname = "aws_key"
       secgroupname = "IAC-Sec-Group-4"
@@ -61,6 +61,17 @@ resource "aws_security_group" "main" {
       security_groups = []
       self = false
       to_port = 22
+    },
+    {
+      cidr_blocks = ["0.0.0.0/0", ]
+      description = ""
+      from_port = 8080 
+      ipv6_cidr_blocks = []
+      prefix_list_ids = []
+      protocol = "tcp"
+      security_groups = []
+      self = false
+      to_port = 8080 
     }
   ]
 }

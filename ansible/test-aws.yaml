@@ -1,0 +1,4 @@
+---
+  - hosts: jenkins
+    tasks:
+      - debug: msg="Ansible is working!!"
