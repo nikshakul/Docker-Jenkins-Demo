@@ -1,0 +1,30 @@
+---
+# tasks file for jenkins
+  - name: "Download Jenkins apt repo URL"
+    apt_key:
+      url: "{{jenkins.repo.URL_KEY}}"
+      state: present
+    become: yes
+
+  - name: "Ensure repository is configured"
+    apt_repository: repo='deb {{jenkins.repo.URL}} binary/' state=present
+    become: true
+
+  - name: "Udate apt cache"
+    apt:
+      update_cache: yes
+      state: latest
+    become: yes
+
+  - name: "Install Jenkins"
+    apt:
+      name: jenkins
+      state: latest
+    become: yes
+
+  - name: "Start Jenkins"
+    service:
+      name: jenkins
+      enabled: true
+      state: started
+    become: yes

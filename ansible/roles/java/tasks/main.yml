@@ -1,0 +1,11 @@
+---
+# tasks file for java
+  - name: "Update APT package manager"
+    become: yes
+    apt:
+     update_cache: yes
+  - name: "Installing JAVA"
+    become: yes
+    apt:
+     name: "{{install_package}}"
+     state: present

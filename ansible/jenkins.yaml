@@ -1,0 +1,14 @@
+---
+  - hosts: jenkins
+    tasks:
+      - name: "Update Repository"
+        become: yes
+        apt:
+           update_cache: true
+           force_apt_get: true
+      - name: "Configure JAVA Role"
+        import_role:
+           name: java
+      - name: "Confgure ans start Jenkins"
+        import_role:
+           name: jenkins 

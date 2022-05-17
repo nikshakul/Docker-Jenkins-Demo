@@ -2,10 +2,10 @@ variable "awsprops" {
     type = map(string)
     default = {
       region = "us-east-1"
-      vpc = "vpc-057af0781b005d441"
+      vpc = "vpc-0243b3d12bbb7e893"
       ami = "ami-09d56f8956ab235b3"
       itype = "t2.micro"
-      subnet = "subnet-04991c5f40412f759"
+      subnet = "subnet-0b291d7270a393253"
       publicip = true
       keyname = "aws_key"
       secgroupname = "IAC-Sec-Group-4"
@@ -79,4 +79,22 @@ resource "aws_security_group" "main" {
 resource "aws_key_pair" "deployer" {
   key_name = "aws_key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuXESjClwL2gAvsFK2dEeAAz6RvIw3BY1dYLniceG16ZnZrXnXXRxdPOyEXdNnqHuhfr5vq6ZDVYjmOATaOUsYlKjLaRNldON0G90BA7V98DP4ZhQTHOK9m+4oQnMxj18z/1q+pfEEYou2mi/HurFzFnLLGSWAH8eMm4qi+TAEyH558zlI2hDkUpqQi+hnZA2vlg0FE9vKt/f76olKUa+srcmQyaoUMHrJ+LW4cemzGCZ+Y0P7Ac+OL3AL2IL9/PDz3UcdgWObw9Ljodb+BPhWTHEtyb61iCwrMUhb3waqdDNMEYVhLdtbq3J7iV+bHzzsCArSOKi8LSqMghilBlYD nikhilshankarku@ip-172-31-23-250"
+}
+
+resource "null_resource" "ansible_connect" {
+  triggers = {
+    always_run = timestamp()
+  }
+  depends_on = [aws_instance.jenkins]
+  connection {
+    host = "${aws_instance.jenkins.public_ip}" 
+    user = "ubuntu"
+    type = "ssh"
+    private_key = "${file("aws_key")}"
+    timeout = "2m"
+  }
+
+  provisioner "local-exec" {
+    command = "sleep: 120; ansible-playbook -i ../ansible/inventory ../ansible/jenkins.yaml"
+  }
 } 

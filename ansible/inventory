@@ -1,6 +1,6 @@
 [jenkins]
 
-3.238.112.14
+52.90.33.27
 
 [jenkins:vars]
 ansible_user=ubuntu
